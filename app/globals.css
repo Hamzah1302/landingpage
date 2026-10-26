@@ -156,3 +156,41 @@
 .article-content [style*="text-align: center"] { text-align: center; }
 .article-content [style*="text-align: right"] { text-align: right; }
 .article-content [style*="text-align: justify"] { text-align: justify; }
+
+/* ===== Kalkulator: kolom isian dibuat kontras agar jelas mana yang harus diisi ===== */
+.calculator-ui [data-slot="card"] {
+  background: var(--secondary);
+  border-color: rgb(255 255 255 / 0.15);
+}
+.calculator-ui [data-slot="input"],
+.calculator-ui [data-slot="select-trigger"] {
+  height: 2.75rem;
+  background: #fff;
+  color: #0f172a;
+  border: 1.5px solid rgb(255 255 255 / 0.9);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+}
+.calculator-ui [data-slot="input"]::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+.calculator-ui [data-slot="select-trigger"] svg {
+  color: #475569;
+  opacity: 1;
+}
+.calculator-ui [data-slot="input"]:hover,
+.calculator-ui [data-slot="select-trigger"]:hover {
+  border-color: var(--primary);
+}
+.calculator-ui [data-slot="input"]:focus-visible,
+.calculator-ui [data-slot="select-trigger"]:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 45%, transparent);
+}
+/* Switch: posisi mati lebih terlihat */
+.calculator-ui [data-slot="switch"][data-state="unchecked"] {
+  background: rgb(255 255 255 / 0.3);
+}

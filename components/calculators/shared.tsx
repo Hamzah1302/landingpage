@@ -25,7 +25,7 @@ export function CurrencyInput({
 
   return (
     <div className={cn("relative", className)}>
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+      <span className="calc-prefix pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-slate-600">
         Rp
       </span>
       <Input
@@ -33,7 +33,7 @@ export function CurrencyInput({
         inputMode="numeric"
         autoComplete="off"
         placeholder={placeholder}
-        className="pl-10"
+        className="pl-11"
         value={display}
         onChange={(e) => {
           const digits = e.target.value.replace(/\D/g, "").slice(0, MAX_DIGITS)

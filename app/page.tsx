@@ -38,6 +38,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { SectionAnimator } from "@/components/section-animator"
+import { calculators } from "@/lib/calculators/registry"
 
 // --- Data for Sections ---
 
@@ -687,6 +688,66 @@ export default function HomePage() {
               ))}
             </div>
           )}
+        </div>
+      </SectionAnimator>
+
+      {/* Calculator Teaser Section (jembatan ke /kalkulator) */}
+      <SectionAnimator id="tools" className="border-t border-white/10 py-16 md:py-24 bg-background scroll-mt-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl border border-white/10 bg-secondary p-8 md:p-12">
+            <div className="grid items-center gap-10 lg:grid-cols-2">
+              <div>
+                <span className="text-sm font-semibold uppercase tracking-wider text-primary">Free Tools</span>
+                <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  Hitung Sendiri, Sebelum Kami Bantu
+                </h2>
+                <p className="mt-4 text-lg text-muted-foreground">
+                  Mengelola tim berarti mengelola payroll dan kepatuhan pajak. Coba kalkulator gratis kami untuk
+                  memperkirakan PPh 21 dan iuran BPJS, lalu hubungi kami jika Anda ingin urusan ini ditangani
+                  sepenuhnya.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Link href="/kalkulator">
+                      Lihat Semua Kalkulator <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
+                  >
+                    <a href="#contact">Konsultasi Payroll</a>
+                  </Button>
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {calculators.map((calculator) => (
+                  <Link
+                    key={calculator.slug}
+                    href={`/kalkulator/${calculator.slug}`}
+                    className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    <Card className="h-full bg-background border-white/10 text-white transition-colors group-hover:border-primary">
+                      <CardHeader>
+                        <calculator.icon className="h-8 w-8 text-primary" />
+                        <CardTitle className="mt-3 font-serif text-lg">{calculator.title}</CardTitle>
+                        <CardDescription className="line-clamp-3 text-muted-foreground">
+                          {calculator.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                          Coba sekarang
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </span>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </SectionAnimator>
 
