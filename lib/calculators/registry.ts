@@ -1,7 +1,9 @@
 import type { ComponentType } from "react"
-import { Receipt, ShieldCheck, type LucideIcon } from "lucide-react"
+import { HandCoins, Receipt, Scale, ShieldCheck, type LucideIcon } from "lucide-react"
 import Pph21Calculator from "@/components/calculators/pph21-calculator"
 import BpjsCalculator from "@/components/calculators/bpjs-calculator"
+import PesangonCalculator from "@/components/calculators/pesangon-calculator"
+import JobOfferCalculator from "@/components/calculators/job-offer-calculator"
 
 export type CalculatorDefinition = {
   /** Dipakai sebagai URL: /kalkulator/<slug> */
@@ -39,6 +41,26 @@ export const calculators: CalculatorDefinition[] = [
       "Kalkulator iuran BPJS Kesehatan dan BPJS Ketenagakerjaan (JHT, JP, JKK, JKM) bagian perusahaan dan karyawan.",
     icon: ShieldCheck,
     component: BpjsCalculator,
+  },
+  {
+    slug: "pesangon",
+    title: "Kalkulator Pesangon & UPMK",
+    description:
+      "Hitung uang pesangon, uang penghargaan masa kerja (UPMK), dan uang penggantian hak sesuai PP 35/2021 berdasarkan alasan PHK.",
+    seoDescription:
+      "Kalkulator pesangon PHK sesuai PP 35/2021: uang pesangon, UPMK, dan UPH berdasarkan alasan PHK (efisiensi, resign, pensiun, PKPU, pailit, dan lainnya) beserta estimasi PPh 21.",
+    icon: HandCoins,
+    component: PesangonCalculator,
+  },
+  {
+    slug: "bandingkan-tawaran-kerja",
+    title: "Bandingkan 2 Tawaran Kerja",
+    description:
+      "Bandingkan gaji, tunjangan, BPJS, bonus, ongkos transport, dan WFH dari dua tawaran kerja menjadi nilai riil per bulan.",
+    seoDescription:
+      "Kalkulator perbandingan tawaran kerja: hitung nilai riil per bulan setelah PPh 21, BPJS, bonus/THR, biaya transport, dan pola WFH untuk dua tawaran sekaligus.",
+    icon: Scale,
+    component: JobOfferCalculator,
   },
 ]
 
