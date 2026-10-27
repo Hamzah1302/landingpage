@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { calculators } from "@/lib/calculators/registry"
+import { NewBadge } from "@/components/calculators/new-badge"
 
 export const metadata: Metadata = {
   title: "Kalkulator",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 export default function KalkulatorIndexPage() {
   return (
     <div className="bg-background text-white">
-      <section className="bg-secondary py-16 md:py-24">
+      <section className="bg-gradient-to-b from-secondary to-background py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Kalkulator</span>
           <h1 className="mt-2 font-serif text-4xl font-bold tracking-tight sm:text-5xl">Kalkulator Payroll &amp; Pajak</h1>
@@ -36,7 +37,10 @@ export default function KalkulatorIndexPage() {
                 >
                   <Card className="h-full transition-colors group-hover:border-primary">
                     <CardHeader>
-                      <Icon className="h-10 w-10 text-primary" />
+                      <div className="flex items-start justify-between">
+                        <Icon className="h-10 w-10 text-primary" />
+                        {calculator.isNew ? <NewBadge /> : null}
+                      </div>
                       <CardTitle className="mt-4 font-serif text-xl">{calculator.title}</CardTitle>
                       <CardDescription>{calculator.description}</CardDescription>
                     </CardHeader>
