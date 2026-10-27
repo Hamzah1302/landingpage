@@ -489,7 +489,7 @@ export default function HomePage() {
                 className="bg-secondary border-white/10 text-white hover:border-primary transition-colors text-center"
               >
                 <CardHeader className="items-center">
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-background text-primary">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center justify-self-center rounded-full bg-background text-primary">
                     <service.icon className="h-8 w-8" />
                   </div>
                   <CardTitle className="font-serif">{service.title}</CardTitle>
@@ -703,7 +703,7 @@ export default function HomePage() {
                 </h2>
                 <p className="mt-4 text-lg text-muted-foreground">
                   Mengelola tim berarti mengelola payroll dan kepatuhan pajak. Coba kalkulator gratis kami untuk
-                  memperkirakan PPh 21 dan iuran BPJS, lalu hubungi kami jika Anda ingin urusan ini ditangani
+                  memperkirakan PPh 21, iuran BPJS, pesangon, hingga membandingkan tawaran kerja, lalu hubungi kami jika Anda ingin urusan ini ditangani
                   sepenuhnya.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
