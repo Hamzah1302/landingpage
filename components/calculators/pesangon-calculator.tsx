@@ -277,8 +277,7 @@ export default function PesangonCalculator() {
             (0% sampai Rp50 juta, 5% sampai Rp100 juta, 15% sampai Rp500 juta, 25% di atasnya) atas pesangon dan UPMK
             yang dibayar sekaligus; UPH dan hak lain tidak dihitung dalam pajak ini. JHT dan JKP dari BPJS
             Ketenagakerjaan tidak termasuk. Proses PHK yang diperselisihkan mengikuti ketentuan penyelesaian
-            perselisihan hubungan industrial. Konsultasikan dengan praktisi hukum ketenagakerjaan atau konsultan pajak
-            untuk keputusan resmi.
+            perselisihan hubungan industrial.
           </CalculatorDisclaimer>
         </CardContent>
       </Card>

@@ -215,8 +215,7 @@ export default function Pph21Calculator() {
             Estimasi untuk pegawai tetap dengan NPWP, berdasarkan PP 58/2023 dan PMK 168/2023: TER bulanan untuk masa
             Januari–November, tarif Pasal 17 untuk masa pajak terakhir. Menggunakan asumsi bekerja 12 bulan dengan
             penghasilan tetap yang sama tiap bulan, dan belum mencakup status K/I, pegawai tanpa NPWP, insentif PPh 21
-            ditanggung pemerintah (DTP), maupun penghasilan dari pemberi kerja lain. Konsultasikan dengan konsultan pajak
-            atau bagian payroll untuk keputusan resmi.
+            ditanggung pemerintah (DTP), maupun penghasilan dari pemberi kerja lain.
           </CalculatorDisclaimer>
         </CardContent>
       </Card>
