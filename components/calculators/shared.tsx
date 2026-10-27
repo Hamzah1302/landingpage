@@ -44,6 +44,47 @@ export function CurrencyInput({
   )
 }
 
+/** Input angka bulat (mis. tahun, bulan, hari, km) dengan satuan di sisi kanan. */
+export function IntegerInput({
+  id,
+  value,
+  onChange,
+  max = 999,
+  suffix,
+  placeholder = "0",
+  className,
+}: {
+  id?: string
+  value: number
+  onChange: (value: number) => void
+  max?: number
+  suffix?: string
+  placeholder?: string
+  className?: string
+}) {
+  return (
+    <div className={cn("relative", className)}>
+      <Input
+        id={id}
+        inputMode="numeric"
+        autoComplete="off"
+        placeholder={placeholder}
+        className={suffix ? "pr-16" : undefined}
+        value={value > 0 ? String(value) : ""}
+        onChange={(e) => {
+          const digits = e.target.value.replace(/\D/g, "").slice(0, String(max).length)
+          onChange(digits ? Math.min(max, Number(digits)) : 0)
+        }}
+      />
+      {suffix ? (
+        <span className="calc-prefix pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-slate-600">
+          {suffix}
+        </span>
+      ) : null}
+    </div>
+  )
+}
+
 export function Field({
   label,
   htmlFor,
