@@ -125,7 +125,7 @@ export function ResultRow({
     <div
       className={cn(
         "flex items-start justify-between gap-4 py-2 text-sm",
-        strong ? "border-t border-white/10 pt-3 text-base font-semibold text-white" : "text-muted-foreground",
+        strong ? "border-t border-primary/30 pt-3 text-base font-semibold text-white" : "text-muted-foreground",
         muted && "text-xs",
       )}
     >
@@ -139,7 +139,7 @@ export function ResultRow({
 
 export function CalculatorDisclaimer({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-6 rounded-md border border-white/10 bg-white/5 p-4 text-xs leading-relaxed text-muted-foreground">
+    <p className="mt-6 rounded-md border border-primary/25 bg-primary/5 p-4 text-xs leading-relaxed text-muted-foreground">
       {children}
     </p>
   )

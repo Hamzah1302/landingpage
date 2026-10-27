@@ -141,7 +141,7 @@ export default function JobOfferCalculator() {
         <OfferCard idPrefix="b" title="Tawaran B" placeholder="mis. Startup Nusantara" value={offerB} onChange={setOfferB} />
       </div>
 
-      <Card>
+      <Card className="calc-result">
         <CardHeader>
           <CardTitle className="font-serif text-xl">Nilai Riil per Bulan</CardTitle>
         </CardHeader>

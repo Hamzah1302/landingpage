@@ -124,7 +124,7 @@ export default function Pph21Calculator() {
         </CardContent>
       </Card>
 
-      <Card className="lg:col-span-3">
+      <Card className="calc-result lg:col-span-3">
         <CardHeader>
           <CardTitle className="font-serif text-xl">Hasil Perhitungan</CardTitle>
         </CardHeader>

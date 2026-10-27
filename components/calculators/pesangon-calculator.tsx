@@ -168,7 +168,7 @@ export default function PesangonCalculator() {
         </CardContent>
       </Card>
 
-      <Card className="lg:col-span-3">
+      <Card className="calc-result lg:col-span-3">
         <CardHeader>
           <CardTitle className="font-serif text-xl">Rincian Hak PHK</CardTitle>
         </CardHeader>

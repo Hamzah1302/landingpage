@@ -80,7 +80,7 @@ export default function BpjsCalculator() {
         </CardContent>
       </Card>
 
-      <Card className="lg:col-span-3">
+      <Card className="calc-result lg:col-span-3">
         <CardHeader>
           <CardTitle className="font-serif text-xl">Rincian Iuran per Bulan</CardTitle>
         </CardHeader>
