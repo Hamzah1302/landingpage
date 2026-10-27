@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { calculators, getCalculator } from "@/lib/calculators/registry"
+import { NewBadge } from "@/components/calculators/new-badge"
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -33,7 +34,7 @@ export default async function CalculatorPage({ params }: PageProps) {
 
   return (
     <div className="bg-background text-white">
-      <section className="bg-secondary py-12 md:py-16">
+      <section className="bg-gradient-to-b from-secondary to-background py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/kalkulator"
@@ -42,7 +43,10 @@ export default async function CalculatorPage({ params }: PageProps) {
             <ArrowLeft className="h-4 w-4" />
             Semua kalkulator
           </Link>
-          <h1 className="mt-4 font-serif text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">{calculator.title}</h1>
+          <h1 className="mt-4 font-serif text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+            {calculator.title}
+            {calculator.isNew ? <NewBadge className="ml-3 align-middle" /> : null}
+          </h1>
           <p className="mt-3 max-w-3xl text-lg text-muted-foreground">{calculator.description}</p>
         </div>
       </section>
