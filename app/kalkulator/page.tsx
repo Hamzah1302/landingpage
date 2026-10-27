@@ -6,7 +6,7 @@ import { calculators } from "@/lib/calculators/registry"
 
 export const metadata: Metadata = {
   title: "Kalkulator",
-  description: "Kumpulan kalkulator payroll dan perpajakan dari Hitopia: PPh 21, BPJS, dan lainnya.",
+  description: "Kumpulan kalkulator payroll, perpajakan, dan karier dari Hitopia: PPh 21, BPJS, pesangon, dan perbandingan tawaran kerja.",
   alternates: { canonical: "/kalkulator" },
 }
 
@@ -18,7 +18,7 @@ export default function KalkulatorIndexPage() {
           <span className="text-sm font-semibold uppercase tracking-wider text-primary">Kalkulator</span>
           <h1 className="mt-2 font-serif text-4xl font-bold tracking-tight sm:text-5xl">Kalkulator Payroll &amp; Pajak</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            Alat bantu untuk memperkirakan PPh 21, iuran BPJS, dan komponen payroll lainnya.
+            Alat bantu untuk memperkirakan PPh 21, iuran BPJS, pesangon PHK, dan membandingkan tawaran kerja.
           </p>
         </div>
       </section>
