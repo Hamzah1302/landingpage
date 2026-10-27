@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Cormorant_Garamond } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/header"
+import AnnouncementBar from "@/components/announcement-bar"
 import Footer from "@/components/footer"
 import { AuthProvider } from "@/components/auth/auth-provider"
 import { GoogleAnalytics } from "@/components/google-analytics"
@@ -160,6 +161,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${cormorantGaramond.variable} font-sans`}>
         <AuthProvider>
+          <AnnouncementBar />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

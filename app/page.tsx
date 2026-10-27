@@ -39,6 +39,7 @@ import {
 import Link from "next/link"
 import { SectionAnimator } from "@/components/section-animator"
 import { calculators } from "@/lib/calculators/registry"
+import { NewBadge } from "@/components/calculators/new-badge"
 
 // --- Data for Sections ---
 
@@ -730,7 +731,10 @@ export default function HomePage() {
                   >
                     <Card className="h-full bg-background border-white/10 text-white transition-colors group-hover:border-primary">
                       <CardHeader>
-                        <calculator.icon className="h-8 w-8 text-primary" />
+                        <div className="flex items-start justify-between">
+                          <calculator.icon className="h-8 w-8 text-primary" />
+                          {calculator.isNew ? <NewBadge /> : null}
+                        </div>
                         <CardTitle className="mt-3 font-serif text-lg">{calculator.title}</CardTitle>
                         <CardDescription className="line-clamp-3 text-muted-foreground">
                           {calculator.description}

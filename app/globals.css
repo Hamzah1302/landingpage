@@ -160,7 +160,29 @@
 /* ===== Kalkulator: kolom isian dibuat kontras agar jelas mana yang harus diisi ===== */
 .calculator-ui [data-slot="card"] {
   background: var(--secondary);
-  border-color: rgb(255 255 255 / 0.15);
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.55);
+}
+/* Judul kartu diberi garis emas tipis agar tiap panel punya penanda yang jelas */
+.calculator-ui [data-slot="card-header"] {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--primary) 30%, transparent);
+}
+.calculator-ui [data-slot="card-title"] {
+  letter-spacing: 0.01em;
+}
+/* Kartu hasil: aksen emas supaya langsung terbaca sebagai output */
+.calculator-ui .calc-result {
+  border-color: color-mix(in oklab, var(--primary) 55%, transparent);
+  background:
+    radial-gradient(120% 60% at 100% 0%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%),
+    var(--secondary);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent),
+    0 18px 40px -16px color-mix(in oklab, var(--primary) 35%, transparent);
+}
+.calculator-ui .calc-result [data-slot="card-header"] {
+  border-bottom-color: color-mix(in oklab, var(--primary) 50%, transparent);
 }
 .calculator-ui [data-slot="input"],
 .calculator-ui [data-slot="select-trigger"] {
