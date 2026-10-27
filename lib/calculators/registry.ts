@@ -15,6 +15,8 @@ export type CalculatorDefinition = {
   seoDescription: string
   icon: LucideIcon
   component: ComponentType
+  /** Tampilkan lencana "Baru". Hapus setelah beberapa minggu. */
+  isNew?: boolean
 }
 
 /**
@@ -32,6 +34,7 @@ export const calculators: CalculatorDefinition[] = [
       "Kalkulator PPh 21 karyawan tetap sesuai PMK 168/2023: tarif efektif rata-rata (TER) bulanan dan perhitungan masa pajak Desember.",
     icon: Receipt,
     component: Pph21Calculator,
+    isNew: true,
   },
   {
     slug: "bpjs",
@@ -41,6 +44,7 @@ export const calculators: CalculatorDefinition[] = [
       "Kalkulator iuran BPJS Kesehatan dan BPJS Ketenagakerjaan (JHT, JP, JKK, JKM) bagian perusahaan dan karyawan.",
     icon: ShieldCheck,
     component: BpjsCalculator,
+    isNew: true,
   },
   {
     slug: "pesangon",
@@ -51,6 +55,7 @@ export const calculators: CalculatorDefinition[] = [
       "Kalkulator pesangon PHK sesuai PP 35/2021: uang pesangon, UPMK, dan UPH berdasarkan alasan PHK (efisiensi, resign, pensiun, PKPU, pailit, dan lainnya) beserta estimasi PPh 21.",
     icon: HandCoins,
     component: PesangonCalculator,
+    isNew: true,
   },
   {
     slug: "bandingkan-tawaran-kerja",
@@ -61,6 +66,7 @@ export const calculators: CalculatorDefinition[] = [
       "Kalkulator perbandingan tawaran kerja: hitung nilai riil per bulan setelah PPh 21, BPJS, bonus/THR, biaya transport, dan pola WFH untuk dua tawaran sekaligus.",
     icon: Scale,
     component: JobOfferCalculator,
+    isNew: true,
   },
 ]
 
