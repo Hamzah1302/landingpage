@@ -25,7 +25,7 @@ export function CurrencyInput({
 
   return (
     <div className={cn("relative", className)}>
-      <span className="calc-prefix pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-slate-600">
+      <span className="calc-prefix pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-white/50">
         Rp
       </span>
       <Input
@@ -77,7 +77,7 @@ export function IntegerInput({
         }}
       />
       {suffix ? (
-        <span className="calc-prefix pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-slate-600">
+        <span className="calc-prefix pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2 text-sm font-semibold text-white/50">
           {suffix}
         </span>
       ) : null}
@@ -107,20 +107,56 @@ export function Field({
   )
 }
 
+/** Pengelompokan isian: judul kecil beraksen emas + garis pemisah di atasnya (kecuali kelompok pertama). */
+export function FieldGroup({
+  title,
+  description,
+  children,
+}: {
+  title: string
+  description?: string
+  children: React.ReactNode
+}) {
+  return (
+    <section className="space-y-5 border-t border-white/10 pt-6 first:border-t-0 first:pt-0">
+      <div>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-primary">{title}</h3>
+        {description ? <p className="mt-1 text-xs text-muted-foreground">{description}</p> : null}
+      </div>
+      {children}
+    </section>
+  )
+}
+
 export function ResultRow({
   label,
   value,
   strong = false,
+  highlight = false,
   muted = false,
   negative = false,
 }: {
   label: React.ReactNode
   value: number | string
   strong?: boolean
+  /** Nilai akhir utama: ditampilkan paling menonjol (besar, tebal, emas, dalam panel). */
+  highlight?: boolean
   muted?: boolean
   negative?: boolean
 }) {
   const text = typeof value === "number" ? formatRupiah(value) : value
+
+  if (highlight) {
+    return (
+      <div className="my-3 flex items-center justify-between gap-4 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3">
+        <span className="text-sm font-semibold text-white">{label}</span>
+        <span className={cn("shrink-0 text-right text-2xl font-extrabold tabular-nums text-primary", negative && "text-red-400")}>
+          {text}
+        </span>
+      </div>
+    )
+  }
+
   return (
     <div
       className={cn(
@@ -130,7 +166,13 @@ export function ResultRow({
       )}
     >
       <span>{label}</span>
-      <span className={cn("shrink-0 text-right tabular-nums", strong && "text-primary", negative && "text-red-400")}>
+      <span
+        className={cn(
+          "shrink-0 text-right tabular-nums",
+          strong && "text-lg font-bold text-primary",
+          negative && "text-red-400",
+        )}
+      >
         {text}
       </span>
     </div>

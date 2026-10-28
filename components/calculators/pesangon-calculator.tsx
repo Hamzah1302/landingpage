@@ -22,7 +22,7 @@ import {
   SEVERANCE_REASONS,
   type SeveranceReasonKey,
 } from "@/lib/calculators/pesangon"
-import { CalculatorDisclaimer, CurrencyInput, Field, IntegerInput, ResultRow } from "./shared"
+import { CalculatorDisclaimer, CurrencyInput, Field, FieldGroup, IntegerInput, ResultRow } from "./shared"
 
 const factorText = (factor: number) => new Intl.NumberFormat("id-ID", { maximumFractionDigits: 2 }).format(factor)
 
@@ -65,63 +65,65 @@ export default function PesangonCalculator() {
           <CardTitle className="font-serif text-xl">Data Karyawan</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <Field
-            label="Alasan PHK"
-            htmlFor="pesangon-reason"
-            hint={
-              <>
-                <span className="font-medium text-white">
-                  {selected.article} PP 35/2021 · pesangon {factorText(selected.upFactor)}× · UPMK{" "}
-                  {factorText(selected.upmkFactor)}×.
-                </span>{" "}
-                {selected.note}
-              </>
-            }
-          >
-            <Select value={reason} onValueChange={(v) => setReason(v as SeveranceReasonKey)}>
-              <SelectTrigger id="pesangon-reason" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {SEVERANCE_REASON_GROUPS.map((group) => (
-                  <SelectGroup key={group}>
-                    <SelectLabel>{group}</SelectLabel>
-                    {SEVERANCE_REASONS.filter((r) => r.group === group).map((r) => (
-                      <SelectItem key={r.value} value={r.value}>
-                        {r.label}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
+          <FieldGroup title="Situasi PHK">
+            <Field
+              label="Alasan PHK"
+              htmlFor="pesangon-reason"
+              hint={
+                <>
+                  <span className="font-medium text-white">
+                    {selected.article} PP 35/2021 · pesangon {factorText(selected.upFactor)}× · UPMK{" "}
+                    {factorText(selected.upmkFactor)}×.
+                  </span>{" "}
+                  {selected.note}
+                </>
+              }
+            >
+              <Select value={reason} onValueChange={(v) => setReason(v as SeveranceReasonKey)}>
+                <SelectTrigger id="pesangon-reason" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SEVERANCE_REASON_GROUPS.map((group) => (
+                    <SelectGroup key={group}>
+                      <SelectLabel>{group}</SelectLabel>
+                      {SEVERANCE_REASONS.filter((r) => r.group === group).map((r) => (
+                        <SelectItem key={r.value} value={r.value}>
+                          {r.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+          </FieldGroup>
 
-          <Field
-            label="Gaji pokok + tunjangan tetap (per bulan)"
-            htmlFor="pesangon-wage"
-            hint="Upah terakhir sebagai dasar hitung. Bonus, lembur, dan uang makan berdasarkan kehadiran tidak dihitung."
-          >
-            <CurrencyInput id="pesangon-wage" value={wage} onChange={setWage} placeholder="mis. 10.000.000" />
-          </Field>
+          <FieldGroup title="Upah & masa kerja">
+            <Field
+              label="Gaji pokok + tunjangan tetap (per bulan)"
+              htmlFor="pesangon-wage"
+              hint="Upah terakhir sebagai dasar hitung. Bonus, lembur, dan uang makan berdasarkan kehadiran tidak dihitung."
+            >
+              <CurrencyInput id="pesangon-wage" value={wage} onChange={setWage} placeholder="mis. 10.000.000" />
+            </Field>
 
-          <div className="space-y-2">
-            <span className="block text-sm font-medium text-white">Masa kerja</span>
-            <div className="grid grid-cols-2 gap-3">
-              <IntegerInput id="pesangon-years" value={years} onChange={setYears} max={60} suffix="tahun" />
-              <IntegerInput id="pesangon-months" value={months} onChange={setMonths} max={11} suffix="bulan" />
+            <div className="space-y-2">
+              <span className="block text-sm font-medium text-white">Masa kerja</span>
+              <div className="grid grid-cols-2 gap-3">
+                <IntegerInput id="pesangon-years" value={years} onChange={setYears} max={60} suffix="tahun" />
+                <IntegerInput id="pesangon-months" value={months} onChange={setMonths} max={11} suffix="bulan" />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Hitung dari tanggal mulai bekerja sampai tanggal efektif PHK. Masa kerja tidak dibulatkan ke atas.
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Hitung dari tanggal mulai bekerja sampai tanggal efektif PHK. Masa kerja tidak dibulatkan ke atas.
-            </p>
-          </div>
+          </FieldGroup>
 
-          <div className="space-y-4 rounded-md border border-white/10 p-4">
-            <div>
-              <p className="text-sm font-medium text-white">Uang Penggantian Hak (UPH)</p>
-              <p className="mt-1 text-xs text-muted-foreground">Opsional. Isi bila ada hak yang belum diterima.</p>
-            </div>
-
+          <FieldGroup
+            title="Uang penggantian hak (UPH)"
+            description="Opsional. Isi bila ada hak yang belum diterima."
+          >
             <div className="grid grid-cols-2 gap-3">
               <Field label="Sisa cuti (hari)" htmlFor="pesangon-leave">
                 <IntegerInput id="pesangon-leave" value={leaveDays} onChange={setLeaveDays} max={60} suffix="hari" />
@@ -146,25 +148,27 @@ export default function PesangonCalculator() {
             >
               <CurrencyInput id="pesangon-relocation" value={relocation} onChange={setRelocation} />
             </Field>
-          </div>
+          </FieldGroup>
 
-          <Field
-            label="Uang pisah / hak lain sesuai PK, PP, atau PKB"
-            htmlFor="pesangon-other"
-            hint="Opsional. Mis. uang pisah pada resign atau mangkir bila diatur di perusahaan."
-          >
-            <CurrencyInput id="pesangon-other" value={otherRights} onChange={setOtherRights} />
-          </Field>
+          <FieldGroup title="Hak lain & pajak">
+            <Field
+              label="Uang pisah / hak lain sesuai PK, PP, atau PKB"
+              htmlFor="pesangon-other"
+              hint="Opsional. Mis. uang pisah pada resign atau mangkir bila diatur di perusahaan."
+            >
+              <CurrencyInput id="pesangon-other" value={otherRights} onChange={setOtherRights} />
+            </Field>
 
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <label htmlFor="pesangon-tax" className="text-sm font-medium text-white">
-                Tampilkan estimasi PPh 21
-              </label>
-              <p className="mt-1 text-xs text-muted-foreground">Tarif final pesangon yang dibayar sekaligus.</p>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <label htmlFor="pesangon-tax" className="text-sm font-medium text-white">
+                  Tampilkan estimasi PPh 21
+                </label>
+                <p className="mt-1 text-xs text-muted-foreground">Tarif final pesangon yang dibayar sekaligus.</p>
+              </div>
+              <Switch id="pesangon-tax" checked={showTax} onCheckedChange={setShowTax} />
             </div>
-            <Switch id="pesangon-tax" checked={showTax} onCheckedChange={setShowTax} />
-          </div>
+          </FieldGroup>
         </CardContent>
       </Card>
 
@@ -237,7 +241,7 @@ export default function PesangonCalculator() {
 
               <div className="mt-4">
                 {result.otherRights > 0 ? <ResultRow label="Uang pisah / hak lain" value={result.otherRights} /> : null}
-                <ResultRow label="Total hak sebelum pajak" value={result.total} strong />
+                <ResultRow label="Total hak sebelum pajak" value={result.total} strong={showTax} highlight={!showTax} />
                 {showTax ? (
                   <>
                     <ResultRow
@@ -250,7 +254,7 @@ export default function PesangonCalculator() {
                       value={-result.tax}
                       negative
                     />
-                    <ResultRow label="Estimasi diterima setelah pajak" value={result.netAfterTax} strong />
+                    <ResultRow label="Estimasi diterima setelah pajak" value={result.netAfterTax} highlight />
                   </>
                 ) : null}
               </div>
@@ -277,7 +281,8 @@ export default function PesangonCalculator() {
             (0% sampai Rp50 juta, 5% sampai Rp100 juta, 15% sampai Rp500 juta, 25% di atasnya) atas pesangon dan UPMK
             yang dibayar sekaligus; UPH dan hak lain tidak dihitung dalam pajak ini. JHT dan JKP dari BPJS
             Ketenagakerjaan tidak termasuk. Proses PHK yang diperselisihkan mengikuti ketentuan penyelesaian
-            perselisihan hubungan industrial.
+            perselisihan hubungan industrial. Konsultasikan dengan praktisi hukum ketenagakerjaan atau konsultan pajak
+            untuk keputusan resmi.
           </CalculatorDisclaimer>
         </CardContent>
       </Card>

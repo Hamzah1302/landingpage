@@ -15,7 +15,7 @@ import {
   type OfferResult,
 } from "@/lib/calculators/job-offer"
 import { PTKP_STATUSES, type PtkpStatus } from "@/lib/calculators/pph21"
-import { CalculatorDisclaimer, CurrencyInput, Field, IntegerInput } from "./shared"
+import { CalculatorDisclaimer, CurrencyInput, Field, FieldGroup, IntegerInput } from "./shared"
 
 type OfferForm = {
   name: string
@@ -193,11 +193,11 @@ export default function JobOfferCalculator() {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TableCell className="font-semibold">Nilai riil per bulan</TableCell>
-                      <TableCell className={`text-right font-semibold tabular-nums ${a.realValue >= b.realValue ? "text-primary" : ""}`}>
+                      <TableCell className="text-base font-bold text-white">Nilai riil per bulan</TableCell>
+                      <TableCell className={`text-right text-xl font-extrabold tabular-nums ${a.realValue >= b.realValue ? "text-primary" : ""}`}>
                         {formatRupiah(a.realValue)}
                       </TableCell>
-                      <TableCell className={`text-right font-semibold tabular-nums ${b.realValue >= a.realValue ? "text-primary" : ""}`}>
+                      <TableCell className={`text-right text-xl font-extrabold tabular-nums ${b.realValue >= a.realValue ? "text-primary" : ""}`}>
                         {formatRupiah(b.realValue)}
                       </TableCell>
                     </TableRow>
@@ -255,70 +255,74 @@ function OfferCard({
         <CardTitle className="font-serif text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <Field label="Nama perusahaan (opsional)" htmlFor={id("name")}>
-          <Input
-            id={id("name")}
-            autoComplete="off"
-            maxLength={30}
-            placeholder={placeholder}
-            value={value.name}
-            onChange={(e) => set("name", e.target.value)}
-          />
-        </Field>
+        <FieldGroup title="Tawaran">
+          <Field label="Nama perusahaan (opsional)" htmlFor={id("name")}>
+            <Input
+              id={id("name")}
+              autoComplete="off"
+              maxLength={30}
+              placeholder={placeholder}
+              value={value.name}
+              onChange={(e) => set("name", e.target.value)}
+            />
+          </Field>
+        </FieldGroup>
 
-        <Field label="Gaji pokok + tunjangan tetap (per bulan)" htmlFor={id("wage")}>
-          <CurrencyInput id={id("wage")} value={value.fixedWage} onChange={(v) => set("fixedWage", v)} placeholder="mis. 10.000.000" />
-        </Field>
+        <FieldGroup title="Penghasilan">
+          <Field label="Gaji pokok + tunjangan tetap (per bulan)" htmlFor={id("wage")}>
+            <CurrencyInput id={id("wage")} value={value.fixedWage} onChange={(v) => set("fixedWage", v)} placeholder="mis. 10.000.000" />
+          </Field>
 
-        <Field
-          label="Tunjangan tidak tetap (per bulan)"
-          htmlFor={id("variable")}
-          hint="Uang makan, transport, tunjangan WFH, dan sejenisnya. Opsional."
-        >
-          <CurrencyInput id={id("variable")} value={value.variablePay} onChange={(v) => set("variablePay", v)} />
-        </Field>
+          <Field
+            label="Tunjangan tidak tetap (per bulan)"
+            htmlFor={id("variable")}
+            hint="Uang makan, transport, tunjangan WFH, dan sejenisnya. Opsional."
+          >
+            <CurrencyInput id={id("variable")} value={value.variablePay} onChange={(v) => set("variablePay", v)} />
+          </Field>
 
-        <Field label="Bonus & THR setahun" htmlFor={id("bonus")} hint="Dalam kelipatan gaji pokok + tunjangan tetap.">
-          <Select value={value.bonusMonths} onValueChange={(v) => set("bonusMonths", v)}>
-            <SelectTrigger id={id("bonus")} className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {BONUS_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
+          <Field label="Bonus & THR setahun" htmlFor={id("bonus")} hint="Dalam kelipatan gaji pokok + tunjangan tetap.">
+            <Select value={value.bonusMonths} onValueChange={(v) => set("bonusMonths", v)}>
+              <SelectTrigger id={id("bonus")} className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {BONUS_OPTIONS.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+        </FieldGroup>
 
-        <Field label="BPJS dari perusahaan" htmlFor={id("bpjs")}>
-          <Select value={value.bpjsMode} onValueChange={(v) => set("bpjsMode", v as BpjsMode)}>
-            <SelectTrigger id={id("bpjs")} className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {BPJS_MODES.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
+        <FieldGroup title="Benefit">
+          <Field label="BPJS dari perusahaan" htmlFor={id("bpjs")}>
+            <Select value={value.bpjsMode} onValueChange={(v) => set("bpjsMode", v as BpjsMode)}>
+              <SelectTrigger id={id("bpjs")} className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {BPJS_MODES.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
 
-        <Field
-          label="Benefit lain (per bulan)"
-          htmlFor={id("benefit")}
-          hint="Nilai asuransi swasta, subsidi kantin, tunjangan keluarga di luar gaji, dll. Opsional."
-        >
-          <CurrencyInput id={id("benefit")} value={value.otherBenefit} onChange={(v) => set("otherBenefit", v)} />
-        </Field>
+          <Field
+            label="Benefit lain (per bulan)"
+            htmlFor={id("benefit")}
+            hint="Nilai asuransi swasta, subsidi kantin, tunjangan keluarga di luar gaji, dll. Opsional."
+          >
+            <CurrencyInput id={id("benefit")} value={value.otherBenefit} onChange={(v) => set("otherBenefit", v)} />
+          </Field>
+        </FieldGroup>
 
-        <div className="space-y-4 rounded-md border border-white/10 p-4">
-          <p className="text-sm font-medium text-white">Lokasi & pola kerja</p>
-
+        <FieldGroup title="Lokasi & pola kerja">
           <Field label="Hari kerja di kantor" htmlFor={id("office")}>
             <Select value={value.officeDays} onValueChange={(v) => set("officeDays", v)}>
               <SelectTrigger id={id("office")} className="w-full">
@@ -349,7 +353,7 @@ function OfferCard({
           {wfh && value.officeDays !== "0" ? (
             <p className="text-xs text-muted-foreground">Hari WFH otomatis tidak dikenai biaya transport.</p>
           ) : null}
-        </div>
+        </FieldGroup>
       </CardContent>
     </Card>
   )

@@ -14,7 +14,7 @@ import {
   PTKP_STATUSES,
   type PtkpStatus,
 } from "@/lib/calculators/pph21"
-import { CalculatorDisclaimer, CurrencyInput, Field, ResultRow } from "./shared"
+import { CalculatorDisclaimer, CurrencyInput, Field, FieldGroup, ResultRow } from "./shared"
 
 export default function Pph21Calculator() {
   const [status, setStatus] = useState<PtkpStatus>("TK/0")
@@ -59,38 +59,40 @@ export default function Pph21Calculator() {
           <CardTitle className="font-serif text-xl">Data Karyawan</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <Field label="Status PTKP" htmlFor="pph-status" hint={`PTKP setahun ${formatRupiah(ptkp.ptkp)} · TER kategori ${ptkp.category}`}>
-            <Select value={status} onValueChange={(v) => setStatus(v as PtkpStatus)}>
-              <SelectTrigger id="pph-status" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PTKP_STATUSES.map((s) => (
-                  <SelectItem key={s.value} value={s.value}>
-                    {s.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
+          <FieldGroup title="Status & penghasilan">
+            <Field label="Status PTKP" htmlFor="pph-status" hint={`PTKP setahun ${formatRupiah(ptkp.ptkp)} · TER kategori ${ptkp.category}`}>
+              <Select value={status} onValueChange={(v) => setStatus(v as PtkpStatus)}>
+                <SelectTrigger id="pph-status" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {PTKP_STATUSES.map((s) => (
+                    <SelectItem key={s.value} value={s.value}>
+                      {s.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
 
-          <Field
-            label="Gaji pokok + tunjangan tetap (per bulan)"
-            htmlFor="pph-fixed"
-            hint="Menjadi dasar perhitungan iuran BPJS."
-          >
-            <CurrencyInput id="pph-fixed" value={fixedWage} onChange={setFixedWage} placeholder="mis. 10.000.000" />
-          </Field>
+            <Field
+              label="Gaji pokok + tunjangan tetap (per bulan)"
+              htmlFor="pph-fixed"
+              hint="Menjadi dasar perhitungan iuran BPJS."
+            >
+              <CurrencyInput id="pph-fixed" value={fixedWage} onChange={setFixedWage} placeholder="mis. 10.000.000" />
+            </Field>
 
-          <Field
-            label="Tunjangan tidak tetap / lembur (per bulan)"
-            htmlFor="pph-variable"
-            hint="Opsional. Dihitung sebagai penghasilan bruto, bukan dasar BPJS."
-          >
-            <CurrencyInput id="pph-variable" value={variablePay} onChange={setVariablePay} />
-          </Field>
+            <Field
+              label="Tunjangan tidak tetap / lembur (per bulan)"
+              htmlFor="pph-variable"
+              hint="Opsional. Dihitung sebagai penghasilan bruto, bukan dasar BPJS."
+            >
+              <CurrencyInput id="pph-variable" value={variablePay} onChange={setVariablePay} />
+            </Field>
+          </FieldGroup>
 
-          <div className="space-y-4 rounded-md border border-white/10 p-4">
+          <FieldGroup title="BPJS">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <label htmlFor="pph-bpjs" className="text-sm font-medium text-white">
@@ -120,7 +122,7 @@ export default function Pph21Calculator() {
                 </Select>
               </Field>
             ) : null}
-          </div>
+          </FieldGroup>
         </CardContent>
       </Card>
 
@@ -153,7 +155,7 @@ export default function Pph21Calculator() {
                   <ResultRow label="PPh 21 per bulan" value={calc.monthly.tax} strong />
                   <div className="mt-4">
                     <ResultRow label="Potongan BPJS karyawan" value={calc.bpjs.employeeTotal} muted />
-                    <ResultRow label="Estimasi gaji bersih (take-home)" value={calc.takeHome} strong />
+                    <ResultRow label="Estimasi gaji bersih (take-home)" value={calc.takeHome} highlight />
                   </div>
                 </div>
               ) : (
@@ -201,7 +203,7 @@ export default function Pph21Calculator() {
                   <ResultRow
                     label={calc.annual.decemberTax >= 0 ? "PPh 21 yang dipotong di Desember" : "Lebih potong (dikembalikan/dikompensasi)"}
                     value={Math.abs(calc.annual.decemberTax)}
-                    strong
+                    highlight
                     negative={calc.annual.decemberTax < 0}
                   />
                 </div>
@@ -215,7 +217,8 @@ export default function Pph21Calculator() {
             Estimasi untuk pegawai tetap dengan NPWP, berdasarkan PP 58/2023 dan PMK 168/2023: TER bulanan untuk masa
             Januari–November, tarif Pasal 17 untuk masa pajak terakhir. Menggunakan asumsi bekerja 12 bulan dengan
             penghasilan tetap yang sama tiap bulan, dan belum mencakup status K/I, pegawai tanpa NPWP, insentif PPh 21
-            ditanggung pemerintah (DTP), maupun penghasilan dari pemberi kerja lain.
+            ditanggung pemerintah (DTP), maupun penghasilan dari pemberi kerja lain. Konsultasikan dengan konsultan pajak
+            atau bagian payroll untuk keputusan resmi.
           </CalculatorDisclaimer>
         </CardContent>
       </Card>

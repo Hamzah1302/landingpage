@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { calculateBpjs, JKK_RISK_LEVELS, BPJS_CONFIG } from "@/lib/calculators/bpjs"
 import { formatPercent, formatRupiah } from "@/lib/calculators/format"
-import { CalculatorDisclaimer, CurrencyInput, Field, ResultRow } from "./shared"
+import { CalculatorDisclaimer, CurrencyInput, Field, FieldGroup, ResultRow } from "./shared"
 
 export default function BpjsCalculator() {
   const [wage, setWage] = useState(0)
@@ -35,48 +35,52 @@ export default function BpjsCalculator() {
           <CardTitle className="font-serif text-xl">Data Karyawan</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <Field
-            label="Upah sebulan"
-            htmlFor="bpjs-wage"
-            hint="Gaji pokok + tunjangan tetap. Tunjangan tidak tetap (uang makan, transport harian, lembur) tidak dihitung."
-          >
-            <CurrencyInput id="bpjs-wage" value={wage} onChange={setWage} placeholder="mis. 8.000.000" />
-          </Field>
-
-          <div className="flex items-center justify-between gap-4">
-            <label htmlFor="bpjs-kes" className="text-sm font-medium text-white">
-              BPJS Kesehatan
-            </label>
-            <Switch id="bpjs-kes" checked={kesehatan} onCheckedChange={setKesehatan} />
-          </div>
-
-          <div className="flex items-center justify-between gap-4">
-            <label htmlFor="bpjs-tk" className="text-sm font-medium text-white">
-              BPJS Ketenagakerjaan
-            </label>
-            <Switch id="bpjs-tk" checked={ketenagakerjaan} onCheckedChange={setKetenagakerjaan} />
-          </div>
-
-          {ketenagakerjaan ? (
+          <FieldGroup title="Upah">
             <Field
-              label="Kelompok risiko JKK"
-              htmlFor="bpjs-jkk"
-              hint={JKK_RISK_LEVELS.find((l) => l.value === jkk)?.example}
+              label="Upah sebulan"
+              htmlFor="bpjs-wage"
+              hint="Gaji pokok + tunjangan tetap. Tunjangan tidak tetap (uang makan, transport harian, lembur) tidak dihitung."
             >
-              <Select value={jkk} onValueChange={setJkk}>
-                <SelectTrigger id="bpjs-jkk" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {JKK_RISK_LEVELS.map((level) => (
-                    <SelectItem key={level.value} value={level.value}>
-                      {level.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <CurrencyInput id="bpjs-wage" value={wage} onChange={setWage} placeholder="mis. 8.000.000" />
             </Field>
-          ) : null}
+          </FieldGroup>
+
+          <FieldGroup title="Program BPJS">
+            <div className="flex items-center justify-between gap-4">
+              <label htmlFor="bpjs-kes" className="text-sm font-medium text-white">
+                BPJS Kesehatan
+              </label>
+              <Switch id="bpjs-kes" checked={kesehatan} onCheckedChange={setKesehatan} />
+            </div>
+
+            <div className="flex items-center justify-between gap-4">
+              <label htmlFor="bpjs-tk" className="text-sm font-medium text-white">
+                BPJS Ketenagakerjaan
+              </label>
+              <Switch id="bpjs-tk" checked={ketenagakerjaan} onCheckedChange={setKetenagakerjaan} />
+            </div>
+
+            {ketenagakerjaan ? (
+              <Field
+                label="Kelompok risiko JKK"
+                htmlFor="bpjs-jkk"
+                hint={JKK_RISK_LEVELS.find((l) => l.value === jkk)?.example}
+              >
+                <Select value={jkk} onValueChange={setJkk}>
+                  <SelectTrigger id="bpjs-jkk" className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {JKK_RISK_LEVELS.map((level) => (
+                      <SelectItem key={level.value} value={level.value}>
+                        {level.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            ) : null}
+          </FieldGroup>
         </CardContent>
       </Card>
 
@@ -121,11 +125,11 @@ export default function BpjsCalculator() {
                   </TableBody>
                   <TableFooter>
                     <TableRow>
-                      <TableCell className="font-semibold">Total</TableCell>
-                      <TableCell className="text-right font-semibold tabular-nums">
+                      <TableCell className="font-bold">Total</TableCell>
+                      <TableCell className="text-right font-bold tabular-nums text-primary">
                         {formatRupiah(result.employerTotal)}
                       </TableCell>
-                      <TableCell className="text-right font-semibold tabular-nums">
+                      <TableCell className="text-right font-bold tabular-nums text-primary">
                         {formatRupiah(result.employeeTotal)}
                       </TableCell>
                     </TableRow>
@@ -136,7 +140,7 @@ export default function BpjsCalculator() {
               <div className="mt-4">
                 <ResultRow label="Potongan dari gaji karyawan" value={result.employeeTotal} />
                 <ResultRow label="Biaya perusahaan (di luar gaji)" value={result.employerTotal} />
-                <ResultRow label="Total iuran (perusahaan + karyawan)" value={result.grandTotal} strong />
+                <ResultRow label="Total iuran (perusahaan + karyawan)" value={result.grandTotal} highlight />
               </div>
             </>
           ) : (
