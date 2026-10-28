@@ -171,12 +171,36 @@ interface Job {
 }
 
 const companyBenefits = [
-  { icon: TrendingUp, text: "Competitive salary" },
-  { icon: Users, text: "Pre-selection talent with AI" },
-  { icon: Lightbulb, text: "Generous paid time off" },
-  { icon: Briefcase, text: "Remote work flexibility" },
-  { icon: CheckCircle, text: "Professional development" },
-  { icon: MapPin, text: "Vibrant and inclusive culture" },
+  {
+    icon: TrendingUp,
+    text: "Competitive salary",
+    description: "Rewards that match your skills and the impact you make.",
+  },
+  {
+    icon: Users,
+    text: "Pre-selection talent with AI",
+    description: "Smart screening that matches you to projects that truly fit.",
+  },
+  {
+    icon: Lightbulb,
+    text: "Generous paid time off",
+    description: "Time to rest and recharge, so you can do your best work.",
+  },
+  {
+    icon: Briefcase,
+    text: "Remote work flexibility",
+    description: "Work from wherever you are most productive.",
+  },
+  {
+    icon: CheckCircle,
+    text: "Professional development",
+    description: "Grow with real client projects and continuous support.",
+  },
+  {
+    icon: MapPin,
+    text: "Vibrant and inclusive culture",
+    description: "A supportive team where everyone belongs.",
+  },
 ]
 
 // Save contact form submission to Supabase
@@ -758,28 +782,59 @@ export default function HomePage() {
       {/* Careers Section */}
       <SectionAnimator id="careers" className="py-16 md:py-24 bg-background scroll-mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-primary">Careers</span>
-            <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">Join Our Team</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-              We believe our people are our greatest asset. Explore exciting career opportunities and become part of a
-              dynamic, innovative team.
-            </p>
-          </div>
-          <div className="mt-12 grid items-center gap-12 md:grid-cols-2">
-            <div className="space-y-6">
-              {jobOpenings.length === 0 ? (
-                <Card className="bg-secondary shadow-md">
-                  <CardContent className="p-8 text-center">
-                    <p className="text-muted-foreground">
-                      No job openings available at the moment. Please check back later!
-                    </p>
-                  </CardContent>
+          <div className="grid items-center gap-12 lg:grid-cols-5 lg:gap-16">
+            {/* Kiri: judul besar agar seimbang dengan kartu di kanan */}
+            <div className="lg:col-span-2">
+              <span className="inline-block rounded-full border border-primary/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                Careers
+              </span>
+              <h2 className="mt-5 font-serif text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Join Our Team
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
+                We believe our people are our greatest asset. Explore exciting career opportunities and become part of a
+                dynamic, innovative team.
+              </p>
+              <div className="mt-8">
+                <Button asChild size="lg">
+                  <a href="#open-positions" onClick={(e) => handleScrollTo(e, "#open-positions")}>
+                    View Open Positions <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            {/* Kanan: keunggulan bekerja di Hitopia */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-3">
+              {companyBenefits.map((benefit) => (
+                <Card key={benefit.text} className="border-white/10 bg-secondary transition-colors hover:border-primary/50">
+                  <CardHeader>
+                    <benefit.icon className="h-8 w-8 text-primary" />
+                    <CardTitle className="mt-3 font-serif text-lg text-white">{benefit.text}</CardTitle>
+                    <CardDescription className="text-muted-foreground">{benefit.description}</CardDescription>
+                  </CardHeader>
                 </Card>
-              ) : (
-                jobOpenings.map((job) => (
-                  <Card key={job.id} className="bg-secondary shadow-md">
-                    <CardHeader>
+              ))}
+            </div>
+          </div>
+
+          {/* Lowongan */}
+          <div id="open-positions" className="mt-16 scroll-mt-24 border-t border-white/10 pt-12 md:mt-20">
+            <h3 className="font-serif text-2xl font-bold text-white sm:text-3xl">Open Positions</h3>
+
+            {jobOpenings.length === 0 ? (
+              <Card className="mt-8 bg-secondary shadow-md">
+                <CardContent className="p-8 text-center">
+                  <p className="text-muted-foreground">
+                    No job openings available at the moment. Please check back later!
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {jobOpenings.map((job) => (
+                  <Card key={job.id} className="flex h-full flex-col bg-secondary shadow-md">
+                    <CardHeader className="flex-1">
                       <CardTitle>{job.title}</CardTitle>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                         <div className="flex items-center">
@@ -792,16 +847,14 @@ export default function HomePage() {
                           <Clock className="mr-1.5 h-3 w-3" /> {job.type}
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-2">{job.description}</p>
+                      <p className="mt-2 line-clamp-4 text-sm text-muted-foreground">{job.description}</p>
                     </CardHeader>
                     <CardFooter>
                       <Button
                         variant="link"
                         className="p-0 text-primary"
                         asChild
-                        onClick={() =>
-                          GAEvents.clickJobListing(job.id, job.title, job.department)
-                        }
+                        onClick={() => GAEvents.clickJobListing(job.id, job.title, job.department)}
                       >
                         <a
                           href={`https://forms.gle/phzShrV7Gwyu7Q7n6#${job.slug}`}
@@ -813,20 +866,9 @@ export default function HomePage() {
                       </Button>
                     </CardFooter>
                   </Card>
-                ))
-              )}
-            </div>
-            <div>
-              <h3 className="mb-4 font-serif text-2xl font-bold">Why Work at Hitopia?</h3>
-              <ul className="space-y-3">
-                {companyBenefits.map((benefit) => (
-                  <li key={benefit.text} className="flex items-start">
-                    <benefit.icon className="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-primary" />
-                    <span className="text-muted-foreground">{benefit.text}</span>
-                  </li>
                 ))}
-              </ul>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </SectionAnimator>
